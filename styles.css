@@ -15,12 +15,22 @@ body {
   padding: 10px;
 }
 
+#search-btn {
+  background-color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 4px 8px;
+}
+
 #input-form {
   margin: 50px auto;
 }
 
 input {
   text-align: center;
+  border: 2px solid lightgreen;
+  border-radius: 4px;
+  padding: 3px 10px;
 }
 
 #submit-btn {
