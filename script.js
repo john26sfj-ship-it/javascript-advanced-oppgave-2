@@ -1,4 +1,5 @@
 const inputForm = document.querySelector("#input-form");
+const inputCategory = document.querySelector("#input-category");
 const inputItem = document.querySelector("#input-item");
 const inputPrice = document.querySelector("#input-price");
 const submitBtn = document.querySelector("#submit-btn");
@@ -12,38 +13,20 @@ let submittedExpenses = [];
     Store submittedExpenses in loaclStorage.
 */
 
-// Popup error-message if input is empty on submit. Må innrømme at denne er bare lånt.
-const errorModal = (message) => {
-  const modal = document.createElement("dialog");
-  modal.classList.add("modal");
-
-  const errorElement = document.createElement("p");
-  errorElement.textContent = message;
-
-  const closeModalBtn = document.createElement("button");
-  closeModalBtn.textContent = "Ok";
-
-  modal.append(errorElement, closeModalBtn);
-  document.body.append(modal);
-
-  modal.showModal();
-  modal.addEventListener("click", () => {
-    modal.remove();
-  });
-};
-
 inputForm.addEventListener("submit", (e) => {
   e.preventDefault();
   const formData = new FormData(inputForm);
+  const userInputCategory = formData.get("input-category");
   const userInputItem = formData.get("input-item");
   const userInputPrice = formData.get("input-price");
+
+  inputCategory.value = "";
   inputItem.value = "";
-  inputPrice.value = "";
-  //   if (!userInputItem) {
-  //     return errorModal("Item field can´t be empty!");
-  //   }
+  inputPrice.value = 0;
+
   submittedExpenses.push({
     timestamp: new Date(),
+    categoryName: userInputCategory,
     itemname: userInputItem,
     pricetag: userInputPrice,
   });

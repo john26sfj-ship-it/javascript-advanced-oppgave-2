@@ -6,36 +6,25 @@ body {
   align-items: center;
 }
 
-.search-container {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: lightgreen;
-  padding: 10px;
-}
-
-#search-btn {
-  background-color: white;
-  border: none;
-  border-radius: 4px;
-  padding: 4px 8px;
-}
-
 #input-form {
+  font-size: 18px;
   margin: 50px auto;
 }
 
 input {
+  font-size: inherit;
+  min-height: 50px;
   text-align: center;
   border: 2px solid lightgreen;
   border-radius: 4px;
-  padding: 3px 10px;
+  padding: 0;
 }
 
 #submit-btn {
+  font-size: inherit;
+  min-height: 50px;
   background-color: lightgreen;
   border: none;
   border-radius: 4px;
-  padding: 5px 10px;
+  padding: 0 20px;
 }
