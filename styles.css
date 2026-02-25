@@ -20,11 +20,15 @@ input {
   padding: 0;
 }
 
-#submit-btn {
+.btn-styling {
   font-size: inherit;
   min-height: 50px;
   background-color: lightgreen;
   border: none;
   border-radius: 4px;
   padding: 0 20px;
+}
+
+#clear-all-btn {
+  background-color: lightcoral;
 }
