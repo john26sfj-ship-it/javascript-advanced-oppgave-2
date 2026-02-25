@@ -38,10 +38,10 @@ inputForm.addEventListener("submit", (e) => {
   const userInputItem = formData.get("input-item");
   const userInputPrice = formData.get("input-price");
   inputItem.value = "";
-  inputPrice.value = 0;
-  if (!userInputItem || !userInputPrice) {
-    return errorModal("Fields can´t be empty!");
-  }
+  inputPrice.value = "";
+  //   if (!userInputItem) {
+  //     return errorModal("Item field can´t be empty!");
+  //   }
   submittedExpenses.push({
     timestamp: new Date(),
     itemname: userInputItem,

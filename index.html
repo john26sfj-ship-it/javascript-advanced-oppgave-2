@@ -5,12 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>User Data Assignment</title>
     <link rel="stylesheet" href="styles.css" />
-    <script src="script.js defer"></script>
+    <script src="script.js" defer></script>
   </head>
   <body>
     <form id="input-form">
-      <input type="text" id="input-item" placeholder="Input item:" />
-      <input type="number" id="input-price" placeholder="Input price (Int):" />
+      <input
+        type="text"
+        id="input-item"
+        name="input-item"
+        placeholder="Input item:"
+      />
+      <input
+        type="number"
+        id="input-price"
+        name="input-price"
+        placeholder="Input price (Int):"
+      />
       <button id="submit-btn">Submit</button>
     </form>
     <div id="output-container"></div>
