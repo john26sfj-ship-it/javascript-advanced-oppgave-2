@@ -29,6 +29,33 @@ input {
   padding: 0 20px;
 }
 
+#reload-btn {
+  background-color: yellow;
+}
+
 #clear-all-btn {
+  background-color: lightcoral;
+}
+
+.each-object-output-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.sort-price {
+  font-size: 12px;
+  width: 110px;
+  padding: 2px 4px;
+  min-height: 30px; /* Just removes styling from btn-styling */
+}
+
+#just-under-input {
+  width: 210px;
+  font-size: 12px;
+  padding: 0;
+}
+
+#apply-filter {
   background-color: lightcoral;
 }

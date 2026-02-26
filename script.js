@@ -3,9 +3,16 @@ const inputCategory = document.querySelector("#input-category");
 const inputItem = document.querySelector("#input-item");
 const inputPrice = document.querySelector("#input-price");
 const submitBtn = document.querySelector("#submit-btn");
+const sortPriceAscending = document.querySelector("#sort-by-price-ascending");
+const sortPriceDescending = document.querySelector("#sort-by-price-descending");
+const reloadBtn = document.querySelector("#reload-btn");
 const clearAllBtn = document.querySelector("#clear-all-btn");
+const filterForm = document.querySelector("#filter-form");
+const justUnderInput = document.querySelector("#just-under-input");
+const applyFilter = document.querySelector("#apply-filter");
 
 let submittedExpenses = [];
+let totalPrice = 0;
 
 /*
     Take input.
@@ -18,58 +25,54 @@ const saveSubmittedExpensesToStorage = () =>
 const loadedSubmittedExpensesFromStorage = () =>
   JSON.parse(localStorage.getItem("submittedExpenses"));
 
-// const buildPage = () => {
-//   const loadedExpenses = loadedSubmittedExpensesFromStorage();
-//   loadedExpenses.forEach((element) => {
-//     // your code logic here
-
-//     const eachObjectOutpuContainer = document.createElement("div");
-//     eachObjectOutpuContainer.classList.add("each-object-output-container");
-
-//     const eachObjectTimeStamp = document.createElement("p");
-//     eachObjectTimeStamp.classList.add("each-object-time-stamp");
-//     eachObjectTimeStamp.textContent = element.timestamp.toLocaleString("en-UK");
-
-//     const eachObjectCategory = document.createElement("p");
-//     eachObjectCategory.classList.add("eachObjCategory");
-//     eachObjectCategory.textContent = element.eachObjCategory;
-
-//     const eachObjectItem = document.createElement("p");
-//     eachObjectItem.classList.add("each-object-item");
-
-//     const eachObjectPriceTag = document.createElement("p");
-//     eachObjectPriceTag.classList.add("each-object-price-tag");
-//   });
-// };
-
 const outputContainer = document.querySelector("#output-container");
 
 const buildPage = () => {
+  outputContainer.innerHTML = "";
+
   const loadedExpenses = loadedSubmittedExpensesFromStorage();
+  console.log(loadedExpenses);
+  if (loadedExpenses != null) {
+    const [first, ...rest] = loadedExpenses;
+    outputFirst(first);
+  }
+  if (!loadedExpenses) return;
   loadedExpenses.forEach((element) => {
     const eachObjectOutputContainer = document.createElement("div");
     eachObjectOutputContainer.classList.add("each-object-output-container");
 
+    const dateElement = document.createElement("p");
+    dateElement.textContent = `Created: ${element.timestamp}`;
+
     const categoryElement = document.createElement("p");
-    categoryElement.textContent = `Category: ${element.categoryName}`;
+    categoryElement.textContent = `Category: ${element.categoryname}`;
 
     const itemElement = document.createElement("p");
-    itemElement.textContent = `Item: ${element.itemName}`;
+    itemElement.textContent = `Item: ${element.itemname}`;
 
     const priceElement = document.createElement("p");
-    priceElement.textContent = `Price: ${element.priceTag}`;
+    priceElement.textContent = `Price: ${element.pricetag}`;
 
     eachObjectOutputContainer.appendChild(categoryElement);
     eachObjectOutputContainer.appendChild(itemElement);
     eachObjectOutputContainer.appendChild(priceElement);
 
+    // removableContainer.appendChild(eachObjectOutputContainer);
     outputContainer.appendChild(eachObjectOutputContainer);
   });
 };
 
 buildPage();
 
-clearAllBtn.addEventListener("click", () => localStorage.clear());
+reloadBtn.addEventListener("click", () => {
+  buildPage();
+});
+
+clearAllBtn.addEventListener("click", () => {
+  localStorage.clear();
+  window.location.reload();
+  // buildPage();
+});
 
 inputForm.addEventListener("submit", (e) => {
   e.preventDefault();
@@ -87,10 +90,43 @@ inputForm.addEventListener("submit", (e) => {
 
   submittedExpenses.push({
     timestamp: dateOnly,
-    categoryName: userInputCategory,
+    categoryname: userInputCategory,
     itemname: userInputItem,
     pricetag: userInputPrice,
   });
   saveSubmittedExpensesToStorage();
   buildPage();
 });
+
+sortPriceAscending.addEventListener("click", () => {
+  const myArray = loadedSubmittedExpensesFromStorage();
+  myArray.sort((a, b) => a.pricetag - b.pricetag);
+  submittedExpenses = myArray;
+  saveSubmittedExpensesToStorage();
+  buildPage();
+});
+
+sortPriceDescending.addEventListener("click", () => {
+  const myArray = loadedSubmittedExpensesFromStorage();
+  myArray.sort((a, b) => b.pricetag - a.pricetag);
+  submittedExpenses = myArray;
+  saveSubmittedExpensesToStorage();
+  buildPage();
+});
+
+filterForm.addEventListener("submit", (e) => {
+  e.preventDefault();
+  console.log("Addeventlistener is running");
+  const formData = new FormData(filterForm);
+  const filterNum = formData.get("just-under-input");
+  console.log(filterNum);
+  const myArray = loadedSubmittedExpensesFromStorage();
+  console.log("myArray: ", myArray);
+  const filteredByNum = myArray.filter((items) => items.pricetag >= filterNum);
+  console.log("Filtered by num: ", filteredByNum);
+  submittedExpenses = filteredByNum;
+  saveSubmittedExpensesToStorage();
+  buildPage();
+});
+
+function outputFirst(first) {}

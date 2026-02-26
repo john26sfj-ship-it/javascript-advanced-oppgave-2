@@ -31,8 +31,26 @@
         required
       />
       <button id="submit-btn" class="btn-styling">Submit</button>
+      <button id="reload-btn" class="btn-styling">Reload</button>
       <button id="clear-all-btn" class="btn-styling">Clear storage</button>
     </form>
+    <div class="sort-container">
+      <button id="sort-by-price-ascending" class="btn-styling sort-price">
+        Price ascending:
+      </button>
+      <button id="sort-by-price-descending" class="btn-styling sort-price">
+        Price descending:
+      </button>
+      <form id="filter-form">
+        <input
+          type="number"
+          id="just-under-input"
+          name="just-under-input"
+          placeholder="Remove items under this number:"
+        />
+        <button id="apply-filter">Remove</button>
+      </form>
+    </div>
     <main id="output-container"></main>
   </body>
 </html>
