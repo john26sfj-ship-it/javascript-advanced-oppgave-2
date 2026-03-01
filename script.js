@@ -12,36 +12,36 @@ const filterForm = document.querySelector("#filter-form");
 const justUnderInput = document.querySelector("#just-under-input");
 const applyFilter = document.querySelector("#apply-filter");
 
+// Arrayet som blir lagret i localStorage.
 let submittedExpenses = [];
 
-/*
-    Take input.
-    Take all three inputs, and create a <div> with each of them as a <p> beside each other, inside output-container. 
-    Push to submittedExpenses.
-    Store submittedExpenses in loaclStorage.
-*/
+// Sender til localStorage.
 const saveSubmittedExpensesToStorage = () =>
   localStorage.setItem("submittedExpenses", JSON.stringify(submittedExpenses));
+// Leser fra localStorage.
 const loadedSubmittedExpensesFromStorage = () =>
   JSON.parse(localStorage.getItem("submittedExpenses"));
-
+// Hoved div i html, hvor all html herfra blir lagt.
 const outputContainer = document.querySelector("#output-container");
 
+// Hovedfunksjon. Henter, lagrer, og viser alle IKKE-statiske html-elementer.
 const buildPage = () => {
   outputContainer.innerHTML = "";
 
   const loadedExpenses = loadedSubmittedExpensesFromStorage();
   console.log(loadedExpenses);
   if (loadedExpenses != null) {
+    // Finner første objekt i arrayet.
     const [first, ...rest] = loadedExpenses;
     outputFirst(first);
   }
+  // Stopper videre kode hvis loadedExpenses ikke eksisterer.
   if (!loadedExpenses) return;
   loadedExpenses.forEach((element) => {
     console.log(
       `Price with discount: ${element.itemname}: ${Number(applyDiscount(element.pricetag))}`,
     );
-
+    // Lager <div> hvor timestamp, categoryname, itemname og pricetag blir vist på samme linje.
     const eachObjectOutputContainer = document.createElement("div");
     eachObjectOutputContainer.classList.add("each-object-output-container");
 
@@ -57,12 +57,14 @@ const buildPage = () => {
     const priceElement = document.createElement("p");
     priceElement.textContent = `Price: ${element.pricetag}`;
 
+    eachObjectOutputContainer.appendChild(dateElement);
     eachObjectOutputContainer.appendChild(categoryElement);
     eachObjectOutputContainer.appendChild(itemElement);
     eachObjectOutputContainer.appendChild(priceElement);
 
     outputContainer.appendChild(eachObjectOutputContainer);
   });
+  // Sender loadedExpenses til outputTotalPrice for output.
   outputTotalPrice(loadedExpenses);
 };
 
@@ -77,6 +79,7 @@ clearAllBtn.addEventListener("click", () => {
   window.location.reload();
 });
 
+// Inputfeltene for data til nytt objekt.
 inputForm.addEventListener("submit", (e) => {
   e.preventDefault();
   const formData = new FormData(inputForm);
@@ -88,9 +91,6 @@ inputForm.addEventListener("submit", (e) => {
   inputItem.value = "";
   inputPrice.value = 0;
 
-  const today = new Date();
-  const dateOnly = today.toISOString().split("T")[0];
-
   submittedExpenses.push({
     timestamp: dateOnly,
     categoryname: userInputCategory,
@@ -101,6 +101,7 @@ inputForm.addEventListener("submit", (e) => {
   buildPage();
 });
 
+// Sorterer etter stigende pris.
 sortPriceAscending.addEventListener("click", () => {
   const myArray = loadedSubmittedExpensesFromStorage();
   myArray.sort((a, b) => a.pricetag - b.pricetag);
@@ -108,7 +109,7 @@ sortPriceAscending.addEventListener("click", () => {
   saveSubmittedExpensesToStorage();
   buildPage();
 });
-
+// Sorterer etter fallende pris.
 sortPriceDescending.addEventListener("click", () => {
   const myArray = loadedSubmittedExpensesFromStorage();
   myArray.sort((a, b) => b.pricetag - a.pricetag);
@@ -118,6 +119,7 @@ sortPriceDescending.addEventListener("click", () => {
 });
 
 /*
+    Er ment å skulle fjerne alle objekter under en gitt pris, og kun vise de over.
     Kan ikke for mitt bare liv skjønne hvorfor denne
     noen ganger virker fint, men andre ganger ikke
     fjerner object med laveste pricetag...
