@@ -38,8 +38,9 @@ const buildPage = () => {
   }
   if (!loadedExpenses) return;
   loadedExpenses.forEach((element) => {
-    // totalPrice += element.pricetag;
-    // totalPrice += Number(element.pricetag) || 0;
+    console.log(
+      `Price with discount: ${element.itemname}: ${Number(applyDiscount(element.pricetag))}`,
+    );
 
     const eachObjectOutputContainer = document.createElement("div");
     eachObjectOutputContainer.classList.add("each-object-output-container");
@@ -149,5 +150,13 @@ function outputTotalPrice(loadedExpenses) {
   const totalElement = document.createElement("p");
   totalElement.textContent = `Total price: ${totalPrice}`;
 
+  const discountElement = document.createElement("p");
+  discountElement.textContent = `Prices for items with discount in console`;
+
   outputContainer.appendChild(totalElement);
+  outputContainer.appendChild(discountElement);
+}
+
+function applyDiscount(fullPrice) {
+  return fullPrice * 0.75;
 }

@@ -47,6 +47,11 @@ input {
   text-align: center;
 }
 
+.sort-btn-container {
+  width: 100%;
+  text-align: center;
+}
+
 .sort-price {
   font-size: 12px;
   width: 110px;
