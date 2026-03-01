@@ -43,11 +43,19 @@ input {
   gap: 20px;
 }
 
+#sort-container {
+  text-align: center;
+}
+
 .sort-price {
   font-size: 12px;
   width: 110px;
   padding: 2px 4px;
   min-height: 30px; /* Just removes styling from btn-styling */
+}
+
+#filter-form {
+  margin: 20px;
 }
 
 #just-under-input {
@@ -58,4 +66,8 @@ input {
 
 #apply-filter {
   background-color: lightcoral;
+}
+
+#top-item {
+  margin: 20px;
 }

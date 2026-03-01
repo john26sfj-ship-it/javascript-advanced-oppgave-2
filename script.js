@@ -7,12 +7,12 @@ const sortPriceAscending = document.querySelector("#sort-by-price-ascending");
 const sortPriceDescending = document.querySelector("#sort-by-price-descending");
 const reloadBtn = document.querySelector("#reload-btn");
 const clearAllBtn = document.querySelector("#clear-all-btn");
+const topItem = document.querySelector("#top-item");
 const filterForm = document.querySelector("#filter-form");
 const justUnderInput = document.querySelector("#just-under-input");
 const applyFilter = document.querySelector("#apply-filter");
 
 let submittedExpenses = [];
-let totalPrice = 0;
 
 /*
     Take input.
@@ -38,6 +38,9 @@ const buildPage = () => {
   }
   if (!loadedExpenses) return;
   loadedExpenses.forEach((element) => {
+    // totalPrice += element.pricetag;
+    // totalPrice += Number(element.pricetag) || 0;
+
     const eachObjectOutputContainer = document.createElement("div");
     eachObjectOutputContainer.classList.add("each-object-output-container");
 
@@ -57,9 +60,9 @@ const buildPage = () => {
     eachObjectOutputContainer.appendChild(itemElement);
     eachObjectOutputContainer.appendChild(priceElement);
 
-    // removableContainer.appendChild(eachObjectOutputContainer);
     outputContainer.appendChild(eachObjectOutputContainer);
   });
+  outputTotalPrice(loadedExpenses);
 };
 
 buildPage();
@@ -71,7 +74,6 @@ reloadBtn.addEventListener("click", () => {
 clearAllBtn.addEventListener("click", () => {
   localStorage.clear();
   window.location.reload();
-  // buildPage();
 });
 
 inputForm.addEventListener("submit", (e) => {
@@ -114,19 +116,38 @@ sortPriceDescending.addEventListener("click", () => {
   buildPage();
 });
 
+/*
+    Kan ikke for mitt bare liv skjønne hvorfor denne
+    noen ganger virker fint, men andre ganger ikke
+    fjerner object med laveste pricetag...
+*/
 filterForm.addEventListener("submit", (e) => {
   e.preventDefault();
   console.log("Addeventlistener is running");
   const formData = new FormData(filterForm);
   const filterNum = formData.get("just-under-input");
-  console.log(filterNum);
   const myArray = loadedSubmittedExpensesFromStorage();
-  console.log("myArray: ", myArray);
-  const filteredByNum = myArray.filter((items) => items.pricetag >= filterNum);
+  let filteredByNum = myArray.filter((item) => item.pricetag > filterNum);
   console.log("Filtered by num: ", filteredByNum);
   submittedExpenses = filteredByNum;
   saveSubmittedExpensesToStorage();
   buildPage();
 });
 
-function outputFirst(first) {}
+function outputFirst(first) {
+  topItem.textContent = `Item on top is: ${first.itemname}`;
+}
+
+function outputTotalPrice(loadedExpenses) {
+  const totalPrice = loadedExpenses.reduce((acc, curr) => {
+    return acc + +curr.pricetag; // Unary (+) tvinger til nummer!
+  }, 0);
+  console.log("expected total", totalPrice);
+  const totalOutputContainer = document.createElement("div");
+  totalOutputContainer.classList.add("total-container");
+
+  const totalElement = document.createElement("p");
+  totalElement.textContent = `Total price: ${totalPrice}`;
+
+  outputContainer.appendChild(totalElement);
+}
