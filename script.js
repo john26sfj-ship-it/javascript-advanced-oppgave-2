@@ -140,7 +140,7 @@ filterForm.addEventListener("submit", (e) => {
 function outputFirst(first) {
   topItem.textContent = `Item on top is: ${first.itemname}`;
 }
-
+// Finner total pris for objektene i localStorage, og viser på page.
 function outputTotalPrice(loadedExpenses) {
   const totalPrice = loadedExpenses.reduce((acc, curr) => {
     return acc + +curr.pricetag; // Unary (+) tvinger til nummer!
@@ -152,6 +152,7 @@ function outputTotalPrice(loadedExpenses) {
   const totalElement = document.createElement("p");
   totalElement.textContent = `Total price: ${totalPrice}`;
 
+  // Kun beskjed, tall i console.
   const discountElement = document.createElement("p");
   discountElement.textContent = `Prices for items with discount in console`;
 
