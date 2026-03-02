@@ -16,8 +16,8 @@ const applyFilter = document.querySelector("#apply-filter");
 let submittedExpenses = [];
 
 // Sender til localStorage.
-const saveSubmittedExpensesToStorage = () =>
-  localStorage.setItem("submittedExpenses", JSON.stringify(submittedExpenses));
+const saveSubmittedExpensesToStorage = (data) =>
+  localStorage.setItem("submittedExpenses", JSON.stringify(data));
 // Leser fra localStorage.
 const loadedSubmittedExpensesFromStorage = () =>
   JSON.parse(localStorage.getItem("submittedExpenses"));
@@ -29,10 +29,16 @@ const buildPage = () => {
   outputContainer.innerHTML = "";
 
   const loadedExpenses = loadedSubmittedExpensesFromStorage();
-  console.log(loadedExpenses);
-  if (loadedExpenses != null) {
+  console.log("Loadedexpenses", loadedExpenses);
+  // Check if loadedExpenses is not null and is an array with at least one element
+  if (
+    loadedExpenses &&
+    Array.isArray(loadedExpenses) &&
+    loadedExpenses.length > 0
+  ) {
     // Finner første objekt i arrayet.
     const [first, ...rest] = loadedExpenses;
+    console.log("first: ", first);
     outputFirst(first);
   }
   // Stopper videre kode hvis loadedExpenses ikke eksisterer.
@@ -83,7 +89,7 @@ clearAllBtn.addEventListener("click", () => {
 inputForm.addEventListener("submit", (e) => {
   e.preventDefault();
   const formData = new FormData(inputForm);
-  const userInputCategory = formData.get("input-category");
+  const userInputCategory = Number(formData.get("input-category"));
   const userInputItem = formData.get("input-item");
   const userInputPrice = formData.get("input-price");
 
@@ -97,7 +103,7 @@ inputForm.addEventListener("submit", (e) => {
     itemname: userInputItem,
     pricetag: userInputPrice,
   });
-  saveSubmittedExpensesToStorage();
+  saveSubmittedExpensesToStorage(submittedExpenses);
   buildPage();
 });
 
@@ -105,16 +111,14 @@ inputForm.addEventListener("submit", (e) => {
 sortPriceAscending.addEventListener("click", () => {
   const myArray = loadedSubmittedExpensesFromStorage();
   myArray.sort((a, b) => a.pricetag - b.pricetag);
-  submittedExpenses = myArray;
-  saveSubmittedExpensesToStorage();
+  saveSubmittedExpensesToStorage(myArray);
   buildPage();
 });
 // Sorterer etter fallende pris.
 sortPriceDescending.addEventListener("click", () => {
   const myArray = loadedSubmittedExpensesFromStorage();
   myArray.sort((a, b) => b.pricetag - a.pricetag);
-  submittedExpenses = myArray;
-  saveSubmittedExpensesToStorage();
+  saveSubmittedExpensesToStorage(myArray);
   buildPage();
 });
 
@@ -132,8 +136,7 @@ filterForm.addEventListener("submit", (e) => {
   console.log(myArray);
   let filteredByNum = myArray.filter((item) => item.pricetag > filterNum);
   console.log("Filtered by num: ", filteredByNum);
-  submittedExpenses = filteredByNum;
-  saveSubmittedExpensesToStorage();
+  saveSubmittedExpensesToStorage(filteredByNum);
   buildPage();
 });
 
