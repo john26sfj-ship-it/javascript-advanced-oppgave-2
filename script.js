@@ -92,7 +92,7 @@ inputForm.addEventListener("submit", (e) => {
   inputPrice.value = 0;
 
   submittedExpenses.push({
-    timestamp: dateOnly,
+    // timestamp: dateOnly,
     categoryname: userInputCategory,
     itemname: userInputItem,
     pricetag: userInputPrice,
@@ -126,10 +126,10 @@ sortPriceDescending.addEventListener("click", () => {
 */
 filterForm.addEventListener("submit", (e) => {
   e.preventDefault();
-  console.log("Addeventlistener is running");
   const formData = new FormData(filterForm);
   const filterNum = formData.get("just-under-input");
   const myArray = loadedSubmittedExpensesFromStorage();
+  console.log(myArray);
   let filteredByNum = myArray.filter((item) => item.pricetag > filterNum);
   console.log("Filtered by num: ", filteredByNum);
   submittedExpenses = filteredByNum;
