@@ -51,8 +51,8 @@ const buildPage = () => {
     const eachObjectOutputContainer = document.createElement("div");
     eachObjectOutputContainer.classList.add("each-object-output-container");
 
-    const dateElement = document.createElement("p");
-    dateElement.textContent = `Created: ${element.timestamp}`;
+    // const dateElement = document.createElement("p");
+    // dateElement.textContent = `Created: ${element.timestamp}`;
 
     const categoryElement = document.createElement("p");
     categoryElement.textContent = `Category: ${element.categoryname}`;
@@ -63,7 +63,7 @@ const buildPage = () => {
     const priceElement = document.createElement("p");
     priceElement.textContent = `Price: ${element.pricetag}`;
 
-    eachObjectOutputContainer.appendChild(dateElement);
+    // eachObjectOutputContainer.appendChild(dateElement);
     eachObjectOutputContainer.appendChild(categoryElement);
     eachObjectOutputContainer.appendChild(itemElement);
     eachObjectOutputContainer.appendChild(priceElement);
@@ -89,7 +89,7 @@ clearAllBtn.addEventListener("click", () => {
 inputForm.addEventListener("submit", (e) => {
   e.preventDefault();
   const formData = new FormData(inputForm);
-  const userInputCategory = Number(formData.get("input-category"));
+  const userInputCategory = formData.get("input-category");
   const userInputItem = formData.get("input-item");
   const userInputPrice = formData.get("input-price");
 
